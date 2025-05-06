@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4 - Reloj Analógico</title>
+    <style>
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .reloj {
+            width: 300px;
+            height: 300px;
+            border: 10px solid #333;
+            border-radius: 50%;
+            position: relative;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .marca {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            text-align: center;
+            transform-origin: 50% 50%;
+        }
+
+        .hora {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .manecilla {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .horas {
+            width: 8px;
+            height: 25%;
+            background-color: #333;
+        }
+
+        .minutos {
+            width: 4px;
+            height: 35%;
+            background-color: #666;
+        }
+
+        .segundos {
+            width: 2px;
+            height: 40%;
+            background-color: #f00;
+        }
+
+        .centro {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #f00;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Marcas de las horas */
+        .marca-hora {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .numero {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            line-height: 30px;
+            transform-origin: center center;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="reloj">
+            <div class="manecilla horas" id="horas"></div>
+            <div class="manecilla minutos" id="minutos"></div>
+            <div class="manecilla segundos" id="segundos"></div>
+            <div class="centro"></div>
+            <div id="numeros"></div>
+        </div>
+    </div>
+
+    <script>
+        // Crear números del reloj
+        const numerosDiv = document.getElementById('numeros');
+        for (let i = 1; i <= 12; i++) {
+            const numero = document.createElement('div');
+            numero.className = 'numero';
+            numero.textContent = i;
+            const angulo = (i * 30) - 90; // 360° / 12 = 30°
+            const radio = 120; // Distancia desde el centro
+            const x = Math.cos(angulo * Math.PI / 180) * radio;
+            const y = Math.sin(angulo * Math.PI / 180) * radio;
+            numero.style.left = `${x + 135}px`; // 150 es la mitad del reloj
+            numero.style.top = `${y + 135}px`;
+            numerosDiv.appendChild(numero);
+        }
+
+        function actualizarReloj() {
+            const ahora = new Date();
+            const horas = ahora.getHours() % 12;
+            const minutos = ahora.getMinutes();
+            const segundos = ahora.getSeconds();
+
+            // Calcular ángulos
+            const anguloHoras = (horas * 30) + (minutos / 2); // 360° / 12 = 30°
+            const anguloMinutos = minutos * 6; // 360° / 60 = 6°
+            const anguloSegundos = segundos * 6; // 360° / 60 = 6°
+
+            // Aplicar rotaciones
+            document.getElementById('horas').style.transform = `rotate(${anguloHoras}deg)`;
+            document.getElementById('minutos').style.transform = `rotate(${anguloMinutos}deg)`;
+            document.getElementById('segundos').style.transform = `rotate(${anguloSegundos}deg)`;
+        }
+
+        // Actualizar cada segundo
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj(); // Actualización inicial
+    </script>
+</body>
+</html>

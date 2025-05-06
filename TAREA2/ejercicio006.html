@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6 - Lista de Tareas Interactiva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .contenedor {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .entrada-tarea {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .lista-tareas {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tarea {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .tarea:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tarea-texto {
+            flex: 1;
+        }
+
+        .tarea.completada .tarea-texto {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .boton-eliminar {
+            background-color: #ff4444;
+            margin-left: 10px;
+            padding: 5px 10px;
+        }
+
+        .boton-eliminar:hover {
+            background-color: #cc0000;
+        }
+
+        .checkbox-tarea {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Lista de Tareas</h1>
+        
+        <div class="entrada-tarea">
+            <input type="text" id="nuevaTarea" placeholder="Agregar nueva tarea...">
+            <button onclick="agregarTarea()">Agregar</button>
+        </div>
+
+        <ul class="lista-tareas" id="listaTareas">
+            <!-- Las tareas se agregarán aquí dinámicamente -->
+        </ul>
+
+        <div id="mensajeVacio" class="mensaje-vacio">
+            No hay tareas pendientes
+        </div>
+    </div>
+
+    <script>
+        // Obtener elementos del DOM
+        const inputTarea = document.getElementById('nuevaTarea');
+        const listaTareas = document.getElementById('listaTareas');
+        const mensajeVacio = document.getElementById('mensajeVacio');
+
+        // Agregar evento de tecla Enter al input
+        inputTarea.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                agregarTarea();
+            }
+        });
+
+        function agregarTarea() {
+            const textoTarea = inputTarea.value.trim();
+            
+            if (textoTarea === '') {
+                return;
+            }
+
+            // Crear elementos de la nueva tarea
+            const li = document.createElement('li');
+            li.className = 'tarea';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox-tarea';
+            checkbox.onclick = function() {
+                li.classList.toggle('completada');
+            };
+
+            const span = document.createElement('span');
+            span.className = 'tarea-texto';
+            span.textContent = textoTarea;
+
+            const botonEliminar = document.createElement('button');
+            botonEliminar.className = 'boton-eliminar';
+            botonEliminar.textContent = 'Eliminar';
+            botonEliminar.onclick = function() {
+                li.remove();
+                actualizarMensajeVacio();
+            };
+
+            // Agregar elementos a la lista
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(botonEliminar);
+            listaTareas.appendChild(li);
+
+            // Limpiar input y actualizar mensaje
+            inputTarea.value = '';
+            actualizarMensajeVacio();
+        }
+
+        function actualizarMensajeVacio() {
+            mensajeVacio.style.display = 
+                listaTareas.children.length === 0 ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

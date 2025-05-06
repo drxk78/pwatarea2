@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 2 - Ejercicios JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .titulo-principal {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 2.5em;
+        }
+
+        .autor {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        .lista-ejercicios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ejercicio {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            top: 0;
+        }
+
+        .ejercicio:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .ejercicio a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 20px;
+        }
+
+        .ejercicio:nth-child(1) { background: linear-gradient(45deg, #FFE5E5, #FFF); }
+        .ejercicio:nth-child(2) { background: linear-gradient(45deg, #E5FFE5, #FFF); }
+        .ejercicio:nth-child(3) { background: linear-gradient(45deg, #E5E5FF, #FFF); }
+        .ejercicio:nth-child(4) { background: linear-gradient(45deg, #FFE5FF, #FFF); }
+        .ejercicio:nth-child(5) { background: linear-gradient(45deg, #FFFFE5, #FFF); }
+        .ejercicio:nth-child(6) { background: linear-gradient(45deg, #E5FFFF, #FFF); }
+        .ejercicio:nth-child(7) { background: linear-gradient(45deg, #FFE5E5, #FFF); }
+        .ejercicio:nth-child(8) { background: linear-gradient(45deg, #E5FFE5, #FFF); }
+        .ejercicio:nth-child(9) { background: linear-gradient(45deg, #E5E5FF, #FFF); }
+        .ejercicio:nth-child(10) { background: linear-gradient(45deg, #FFE5FF, #FFF); }
+
+        .ejercicio h2 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+
+        .descripcion {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .ejercicio::after {
+            content: '→';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #666;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .ejercicio:hover::after {
+            opacity: 1;
+            right: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ejercicio {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .ejercicio:nth-child(n) {
+            animation-delay: calc(0.1s * var(--i));
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1 class="titulo-principal">Tarea 2 - Ejercicios JavaScript</h1>
+        <div class="autor">Hecho por: Edison Lutuala</div>
+        
+        <ul class="lista-ejercicios">
+            <li class="ejercicio" style="--i:1">
+                <a href="ejercicio001.html">
+                    <h2>Ejercicio 1 - Cambio de Estilo al Clic</h2>
+                    <div class="descripcion">Cambia el color de fondo al hacer clic en un botón con efectos de transición.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:2">
+                <a href="ejercicio002.html">
+                    <h2>Ejercicio 2 - Calculadora Simple</h2>
+                    <div class="descripcion">Calculadora básica con operaciones matemáticas fundamentales.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:3">
+                <a href="ejercicio003.html">
+                    <h2>Ejercicio 3 - Cambio de Imagen</h2>
+                    <div class="descripcion">Efecto de cambio de imagen al pasar el cursor sobre ella.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:4">
+                <a href="ejercicio004.html">
+                    <h2>Ejercicio 4 - Reloj Analógico</h2>
+                    <div class="descripcion">Reloj analógico funcional con manecillas animadas.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:5">
+                <a href="ejercicio005.html">
+                    <h2>Ejercicio 5 - Validación de Formulario</h2>
+                    <div class="descripcion">Formulario con validación en tiempo real de campos.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:6">
+                <a href="ejercicio006.html">
+                    <h2>Ejercicio 6 - Lista de Tareas</h2>
+                    <div class="descripcion">Lista de tareas con funcionalidades de agregar, completar y eliminar.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:7">
+                <a href="ejercicio007.html">
+                    <h2>Ejercicio 7 - Menú Desplegable</h2>
+                    <div class="descripcion">Menú de navegación con submenús desplegables animados.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:8">
+                <a href="ejercicio008.html">
+                    <h2>Ejercicio 8 - Carrusel de Imágenes</h2>
+                    <div class="descripcion">Carrusel de imágenes con controles y transiciones suaves.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:9">
+                <a href="ejercicio009.html">
+                    <h2>Ejercicio 9 - Temporizador</h2>
+                    <div class="descripcion">Temporizador con controles de inicio, pausa y reinicio.</div>
+                </a>
+            </li>
+            <li class="ejercicio" style="--i:10">
+                <a href="ejercicio010.html">
+                    <h2>Ejercicio 10 - Juego de Preguntas</h2>
+                    <div class="descripcion">Juego interactivo de preguntas y respuestas con puntuación.</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

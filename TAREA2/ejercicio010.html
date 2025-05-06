@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 10 - Juego de Preguntas y Respuestas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .contenedor {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .pregunta {
+            margin-bottom: 20px;
+        }
+
+        .opciones {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .opcion {
+            padding: 15px;
+            background-color: #f8f8f8;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .opcion:hover {
+            background-color: #e8e8e8;
+        }
+
+        .opcion.seleccionada {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .opcion.correcta {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .opcion.incorrecta {
+            background-color: #ff5252;
+            color: white;
+            border-color: #ff1744;
+        }
+
+        .controles {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .progreso {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .resultado {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .puntuacion {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div id="quiz">
+            <div class="progreso" id="progreso"></div>
+            <div class="pregunta" id="pregunta"></div>
+            <div class="opciones" id="opciones"></div>
+            <div class="controles">
+                <button id="siguiente" onclick="siguientePregunta()" disabled>Siguiente Pregunta</button>
+            </div>
+        </div>
+        <div class="resultado" id="resultado">
+            <div class="puntuacion" id="puntuacion"></div>
+            <button onclick="reiniciarQuiz()">Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const preguntas = [
+            {
+                pregunta: "¿Cuál es la capital de Francia?",
+                opciones: ["Londres", "Madrid", "París", "Berlín"],
+                respuestaCorrecta: 2
+            },
+            {
+                pregunta: "¿En qué año comenzó la Segunda Guerra Mundial?",
+                opciones: ["1939", "1940", "1941", "1942"],
+                respuestaCorrecta: 0
+            },
+            {
+                pregunta: "¿Cuál es el planeta más grande del Sistema Solar?",
+                opciones: ["Marte", "Venus", "Saturno", "Júpiter"],
+                respuestaCorrecta: 3
+            },
+            {
+                pregunta: "¿Quién pintó la Mona Lisa?",
+                opciones: ["Van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Miguel Ángel"],
+                respuestaCorrecta: 1
+            },
+            {
+                pregunta: "¿Cuál es el elemento químico más abundante en la Tierra?",
+                opciones: ["Oxígeno", "Carbono", "Hierro", "Hidrógeno"],
+                respuestaCorrecta: 0
+            }
+        ];
+
+        let preguntaActual = 0;
+        let puntuacion = 0;
+        let respondido = false;
+
+        function mostrarPregunta() {
+            const pregunta = preguntas[preguntaActual];
+            document.getElementById('progreso').textContent = 
+                `Pregunta ${preguntaActual + 1} de ${preguntas.length}`;
+            document.getElementById('pregunta').textContent = pregunta.pregunta;
+            
+            const opcionesHTML = pregunta.opciones.map((opcion, index) => `
+                <div class="opcion" onclick="seleccionarRespuesta(${index})">
+                    ${opcion}
+                </div>
+            `).join('');
+            
+            document.getElementById('opciones').innerHTML = opcionesHTML;
+            document.getElementById('siguiente').disabled = true;
+            respondido = false;
+        }
+
+        function seleccionarRespuesta(index) {
+            if (respondido) return;
+            
+            respondido = true;
+            const pregunta = preguntas[preguntaActual];
+            const opciones = document.querySelectorAll('.opcion');
+            
+            opciones[pregunta.respuestaCorrecta].classList.add('correcta');
+            
+            if (index === pregunta.respuestaCorrecta) {
+                opciones[index].classList.add('correcta');
+                puntuacion++;
+            } else {
+                opciones[index].classList.add('incorrecta');
+            }
+            
+            document.getElementById('siguiente').disabled = false;
+        }
+
+        function siguientePregunta() {
+            preguntaActual++;
+            
+            if (preguntaActual < preguntas.length) {
+                mostrarPregunta();
+            } else {
+                mostrarResultado();
+            }
+        }
+
+        function mostrarResultado() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('resultado').style.display = 'block';
+            
+            const porcentaje = (puntuacion / preguntas.length) * 100;
+            document.getElementById('puntuacion').textContent = 
+                `¡Has completado el quiz!\nPuntuación: ${puntuacion} de ${preguntas.length} (${porcentaje}%)`;
+        }
+
+        function reiniciarQuiz() {
+            preguntaActual = 0;
+            puntuacion = 0;
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('resultado').style.display = 'none';
+            mostrarPregunta();
+        }
+
+        // Iniciar el quiz
+        mostrarPregunta();
+    </script>
+</body>
+</html>

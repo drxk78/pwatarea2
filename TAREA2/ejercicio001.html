@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 - Cambio de Estilo al Clic</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            transition: background-color 0.5s ease;
+        }
+
+        .contenedor {
+            text-align: center;
+            padding: 40px;
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+        }
+
+        .titulo {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .texto {
+            font-size: 1.2em;
+            color: #666;
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+
+        .boton {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+
+        .boton:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(76,175,80,0.4);
+        }
+
+        .boton:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes colorPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .contenedor.cambio-color {
+            animation: colorPulse 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="miContenedor" class="contenedor">
+        <h1 class="titulo">Cambio de Estilo al Clic</h1>
+        <p class="texto">¡Haz clic en el botón para ver una hermosa transición de colores!</p>
+        <button class="boton" onclick="cambiarColor()">Cambiar Color</button>
+    </div>
+
+    <script>
+        function cambiarColor() {
+            const contenedor = document.getElementById('miContenedor');
+            const body = document.body;
+            
+            // Colores pastel suaves para el contenedor
+            const coloresContenedor = [
+                '#FFE4E1', '#E6E6FA', '#F0FFF0', 
+                '#FFF0F5', '#F0FFFF', '#FFE5B4',
+                '#E0FFFF', '#FFE4B5', '#F0F8FF'
+            ];
+            
+            // Colores de fondo más oscuros para el body
+            const coloresFondo = [
+                '#f0f0f0', '#e8e8e8', '#f5f5f5',
+                '#ececec', '#f2f2f2', '#eaeaea'
+            ];
+
+            const colorAleatorioContenedor = coloresContenedor[Math.floor(Math.random() * coloresContenedor.length)];
+            const colorAleatorioFondo = coloresFondo[Math.floor(Math.random() * coloresFondo.length)];
+
+            contenedor.style.backgroundColor = colorAleatorioContenedor;
+            body.style.backgroundColor = colorAleatorioFondo;
+            
+            // Añadir y remover clase para la animación
+            contenedor.classList.add('cambio-color');
+            setTimeout(() => {
+                contenedor.classList.remove('cambio-color');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
